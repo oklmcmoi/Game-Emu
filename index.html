@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Boy Emulator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        canvas {
+            border: 2px solid black;
+            margin-top: 20px;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        .control-btn {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Game Boy Emulator</h1>
+    <input type="file" id="romInput" accept=".gb, .gbc">
+    <canvas id="gameCanvas" width="160" height="144"></canvas>
+
+    <div class="controls">
+        <button class="control-btn">A</button>
+        <button class="control-btn">B</button>
+        <button class="control-btn">Start</button>
+        <button class="control-btn">Select</button>
+    </div>
+
+    <script>
+        const romInput = document.getElementById('romInput');
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        romInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const romData = e.target.result;
+                    startEmulation(romData);
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        });
+
+        function startEmulation(romData) {
+            // TODO: Intégrer ici l'émulateur JavaScript pour charger le ROM et l'afficher sur le canvas
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'white';
+            ctx.fillText('Game loading...', 30, 70);
+        }
+    </script>
+</body>
+</html>
