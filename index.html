@@ -9,68 +9,38 @@
             font-family: Arial, sans-serif;
             text-align: center;
         }
-        canvas {
+        #emulator {
             border: 2px solid black;
             margin-top: 20px;
         }
-        .controls {
-            margin-top: 20px;
-        }
-        .control-btn {
-            padding: 10px 20px;
-            margin: 5px;
-            font-size: 16px;
-        }
     </style>
+    <!-- Inclure EmulatorJS -->
+    <script src="/emulatorjs/loader.js"></script>
 </head>
 <body>
     <h1>Game Boy Emulator</h1>
-    <input type="file" id="romInput" accept=".gb, .gbc">
-    <canvas id="gameCanvas" width="160" height="144"></canvas>
-
-    <div class="controls">
-        <button class="control-btn">A</button>
-        <button class="control-btn">B</button>
-        <button class="control-btn">Start</button>
-        <button class="control-btn">Select</button>
-    </div>
-
-    <script src="webretro/webretro-master/cores/mgba_libretro.js"></script> <!-- Lien correct au fichier JavaScript -->
     
+    <!-- Input pour charger une ROM -->
+    <input type="file" id="romInput" accept=".gb, .gbc">
+    
+    <!-- Div où l'émulateur s'affichera -->
+    <div id="emulator" style="width: 480px; height: 432px;"></div>
+
     <script>
-        const romInput = document.getElementById('romInput');
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        let libretro;
-
-        // Fonction pour démarrer l'émulation
-        function startEmulation(romData) {
-            if (!libretro) {
-                alert('Libretro non chargé !');
-                return;
-            }
-
-            // Initialiser l'émulateur avec les données ROM
-            libretro = new Libretro();
-            libretro.loadFile(romData).then(() => {
-                libretro.setCanvas(canvas);
-                libretro.run();
-            }).catch((err) => {
-                console.error('Erreur pendant l\'émulation :', err);
-            });
-        }
-
-        // Gestion de la ROM chargée
-        romInput.addEventListener('change', (event) => {
+        document.getElementById('romInput').addEventListener('change', function(event) {
             const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const romData = e.target.result;
-                    startEmulation(romData);
-                };
-                reader.readAsArrayBuffer(file);
-            }
+            const reader = new FileReader();
+            reader.onload = function() {
+                const romData = reader.result;
+
+                // Configuration de EmulatorJS pour utiliser le core Game Boy
+                EJS_player = '#emulator';
+                EJS_core = 'gb';
+                EJS_biosUrl = '';
+                EJS_gameUrl = URL.createObjectURL(file);
+                EJS_start();
+            };
+            reader.readAsDataURL(file);
         });
     </script>
 </body>
