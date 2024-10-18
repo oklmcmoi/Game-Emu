@@ -35,14 +35,32 @@
         <button class="control-btn">Select</button>
     </div>
 
-    <!-- Inclure le core mgba_libretro.js -->
-    <script src="webretro/webretro-master/cores/mgba_libretro.js"></script>
-
+    <script src="webretro/webretro-master/cores/mgba_libretro.js"></script> <!-- Lien correct au fichier JavaScript -->
+    
     <script>
         const romInput = document.getElementById('romInput');
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
+        let libretro;
 
+        // Fonction pour démarrer l'émulation
+        function startEmulation(romData) {
+            if (!libretro) {
+                alert('Libretro non chargé !');
+                return;
+            }
+
+            // Initialiser l'émulateur avec les données ROM
+            libretro = new Libretro();
+            libretro.loadFile(romData).then(() => {
+                libretro.setCanvas(canvas);
+                libretro.run();
+            }).catch((err) => {
+                console.error('Erreur pendant l\'émulation :', err);
+            });
+        }
+
+        // Gestion de la ROM chargée
         romInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
@@ -54,25 +72,6 @@
                 reader.readAsArrayBuffer(file);
             }
         });
-
-        function startEmulation(romData) {
-            // Initialisation du core pour Game Boy
-            const core = new Libretro();
-            core.loadCore('webretro/webretro-master/cores/mgba_libretro.js', 'webretro/webretro-master/cores/mgba_libretro.wasm')
-                .then(() => {
-                    core.loadGame(romData);
-                    core.run();
-                })
-                .catch((error) => {
-                    console.error("Erreur de chargement de l'émulateur : ", error);
-                });
-
-            // Simulation de chargement visuel
-            ctx.fillStyle = 'black';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'white';
-            ctx.fillText('Chargement du jeu...', 30, 70);
-        }
     </script>
 </body>
 </html>
