@@ -4,43 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Boy Emulator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        #emulator {
-            border: 2px solid black;
-            margin-top: 20px;
-        }
-    </style>
-    <!-- Charger EmulatorJS -->
-    <script src="emulatorjs/loader.js"></script> <!-- Chemin vers le fichier loader.js -->
+    <link rel="stylesheet" href="emulatorjs/data/emulator.min.css">
 </head>
 <body>
     <h1>Game Boy Emulator</h1>
-
-    <!-- Input pour charger une ROM -->
     <input type="file" id="romInput" accept=".gb, .gbc">
+    <canvas id="gameCanvas" width="160" height="144"></canvas>
 
-    <!-- Div où l'émulateur s'affichera -->
-    <div id="emulator" style="width: 480px; height: 432px;"></div>
-
+    <script src="emulatorjs/data/emulator.min.js"></script>
     <script>
-        document.getElementById('romInput').addEventListener('change', function(event) {
+        const romInput = document.getElementById('romInput');
+        romInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
-            const reader = new FileReader();
-            reader.onload = function() {
-                const romData = reader.result;
-
-                // Configuration de EmulatorJS pour utiliser le core Game Boy
-                EJS_player = '#emulator';
-                EJS_core = 'gb';
-                EJS_biosUrl = '';
-                EJS_gameUrl = URL.createObjectURL(file);
-                EJS_start();
-            };
-            reader.readAsDataURL(file);
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const romData = e.target.result;
+                    EJS_start({
+                        'gameUrl': URL.createObjectURL(new Blob([romData], { type: 'application/octet-stream' })),
+                        'system': 'gb',
+                        'emulatorJSRoot': 'emulatorjs/data/',
+                        'canvas': document.getElementById('gameCanvas')
+                    });
+                };
+                reader.readAsArrayBuffer(file);
+            }
         });
     </script>
 </body>
