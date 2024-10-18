@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Boy Emulator</title>
+    <title>Game Emulator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,11 +22,9 @@
             font-size: 16px;
         }
     </style>
-    <!-- Ajouter le fichier CSS de l'émulateur -->
-    <link rel="stylesheet" type="text/css" href="emulatorjs/data/emulator.css">
 </head>
 <body>
-    <h1>Game Boy Emulator</h1>
+    <h1>Game Emulator</h1>
     <input type="file" id="romInput" accept=".gb, .gbc">
     <canvas id="gameCanvas" width="160" height="144"></canvas>
 
@@ -37,11 +35,12 @@
         <button class="control-btn">Select</button>
     </div>
 
-    <!-- Charger les scripts d'EmulatorJS -->
-    <script src="emulatorjs/data/emulator.js"></script>
+    <!-- Inclure le script de l'émulateur ici -->
+    <script src="emulatorjs/data/emulator.min.js"></script> 
     <script>
         const romInput = document.getElementById('romInput');
         const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
 
         romInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
@@ -56,9 +55,15 @@
         });
 
         function startEmulation(romData) {
-            EJS_player = '#gameCanvas';
-            EJS_core = 'gb';  // Pour Game Boy
-            EJS_start(romData);  // Utilisation d'EmulatorJS pour démarrer l'émulation
+            if (typeof EJS_start !== 'undefined') {
+                EJS_start(romData, canvas);
+            } else {
+                console.error('EJS_start is not defined');
+                ctx.fillStyle = 'black';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'white';
+                ctx.fillText('Game loading failed...', 30, 70);
+            }
         }
     </script>
 </body>
