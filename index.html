@@ -35,6 +35,9 @@
         <button class="control-btn">Select</button>
     </div>
 
+    <!-- Inclure le core mgba_libretro.js -->
+    <script src="webretro/webretro-master/cores/mgba_libretro.js"></script>
+
     <script>
         const romInput = document.getElementById('romInput');
         const canvas = document.getElementById('gameCanvas');
@@ -53,11 +56,22 @@
         });
 
         function startEmulation(romData) {
-            // TODO: Intégrer ici l'émulateur JavaScript pour charger le ROM et l'afficher sur le canvas
+            // Initialisation du core pour Game Boy
+            const core = new Libretro();
+            core.loadCore('webretro/webretro-master/cores/mgba_libretro.js', 'webretro/webretro-master/cores/mgba_libretro.wasm')
+                .then(() => {
+                    core.loadGame(romData);
+                    core.run();
+                })
+                .catch((error) => {
+                    console.error("Erreur de chargement de l'émulateur : ", error);
+                });
+
+            // Simulation de chargement visuel
             ctx.fillStyle = 'black';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = 'white';
-            ctx.fillText('Game loading...', 30, 70);
+            ctx.fillText('Chargement du jeu...', 30, 70);
         }
     </script>
 </body>
