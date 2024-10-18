@@ -43,26 +43,26 @@
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
-        // Charger la ROM lorsque l'utilisateur sélectionne un fichier
-        romInput.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const romData = e.target.result;
-                    startEmulation(romData);
-                };
-                reader.readAsArrayBuffer(file);
-            }
-        });
+        window.onload = function() {
+            romInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const romData = e.target.result;
+                        startEmulation(romData);
+                    };
+                    reader.readAsArrayBuffer(file);
+                }
+            });
+        };
 
-        // Fonction pour démarrer l'émulation
         function startEmulation(romData) {
             if (typeof EJS_start !== 'undefined') {
-                EJS_player = '#gameCanvas';  // Élément où le jeu sera affiché
-                EJS_core = ['gb', 'gba'];    // Spécification des consoles supportées
-                EJS_gameData = romData;      // Charger les données du ROM
-                EJS_start();                 // Lancer l'émulation
+                EJS_player = '#gameCanvas';
+                EJS_core = ['gb', 'gba'];
+                EJS_gameData = romData;
+                EJS_start();
             } else {
                 console.error('EJS_start is not defined');
                 ctx.fillStyle = 'black';
