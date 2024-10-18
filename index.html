@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Emulator</title>
+    <title>Game Boy Emulator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,8 +24,8 @@
     </style>
 </head>
 <body>
-    <h1>Game Emulator</h1>
-    <input type="file" id="romInput" accept=".gb, .gbc">
+    <h1>Game Boy Emulator</h1>
+    <input type="file" id="romInput" accept=".gb, .gba, .gbc">
     <canvas id="gameCanvas" width="160" height="144"></canvas>
 
     <div class="controls">
@@ -35,13 +35,15 @@
         <button class="control-btn">Select</button>
     </div>
 
-    <!-- Inclure le script de l'émulateur ici -->
-    <script src="emulatorjs/data/emulator.min.js"></script> 
+    <!-- Charger EmulatorJS ici -->
+    <script src="emulatorjs/data/emulator.min.js"></script>
+
     <script>
         const romInput = document.getElementById('romInput');
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
+        // Charger la ROM lorsque l'utilisateur sélectionne un fichier
         romInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
@@ -54,9 +56,13 @@
             }
         });
 
+        // Fonction pour démarrer l'émulation
         function startEmulation(romData) {
             if (typeof EJS_start !== 'undefined') {
-                EJS_start(romData, canvas);
+                EJS_player = '#gameCanvas';  // Élément où le jeu sera affiché
+                EJS_core = ['gb', 'gba'];    // Spécification des consoles supportées
+                EJS_gameData = romData;      // Charger les données du ROM
+                EJS_start();                 // Lancer l'émulation
             } else {
                 console.error('EJS_start is not defined');
                 ctx.fillStyle = 'black';
@@ -68,3 +74,4 @@
     </script>
 </body>
 </html>
+
