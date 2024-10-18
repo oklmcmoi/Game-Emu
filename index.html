@@ -22,6 +22,8 @@
             font-size: 16px;
         }
     </style>
+    <!-- Ajouter le fichier CSS de l'émulateur -->
+    <link rel="stylesheet" type="text/css" href="emulatorjs/data/emulator.css">
 </head>
 <body>
     <h1>Game Boy Emulator</h1>
@@ -29,19 +31,18 @@
     <canvas id="gameCanvas" width="160" height="144"></canvas>
 
     <div class="controls">
-        <button class="control-btn" onclick="emulatorjs_buttons('A')">A</button>
-        <button class="control-btn" onclick="emulatorjs_buttons('B')">B</button>
-        <button class="control-btn" onclick="emulatorjs_buttons('START')">Start</button>
-        <button class="control-btn" onclick="emulatorjs_buttons('SELECT')">Select</button>
+        <button class="control-btn">A</button>
+        <button class="control-btn">B</button>
+        <button class="control-btn">Start</button>
+        <button class="control-btn">Select</button>
     </div>
 
-    <!-- Inclure Emulator.js -->
-    <script src="emulatorjs/data/emulator.min.js"></script>
-
+    <!-- Charger les scripts d'EmulatorJS -->
+    <script src="emulatorjs/data/emulator.js"></script>
     <script>
         const romInput = document.getElementById('romInput');
         const canvas = document.getElementById('gameCanvas');
-        
+
         romInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
@@ -55,16 +56,9 @@
         });
 
         function startEmulation(romData) {
-            EJS_player = '#gameCanvas';  // Associer à l'élément canvas
-            EJS_core = 'gb';  // Choisir le core de Game Boy
-            EJS_biosUrl = '';  // Si nécessaire, spécifier un BIOS
-            EJS_gameData = romData;  // ROM chargée
-
-            EJS_start();  // Démarrer l'émulation
-        }
-
-        function emulatorjs_buttons(button) {
-            EJS_input(button);
+            EJS_player = '#gameCanvas';
+            EJS_core = 'gb';  // Pour Game Boy
+            EJS_start(romData);  // Utilisation d'EmulatorJS pour démarrer l'émulation
         }
     </script>
 </body>
