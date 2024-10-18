@@ -4,32 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Boy Emulator</title>
-    <link rel="stylesheet" href="emulatorjs/data/emulator.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        canvas {
+            border: 2px solid black;
+            margin-top: 20px;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        .control-btn {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
     <h1>Game Boy Emulator</h1>
     <input type="file" id="romInput" accept=".gb, .gbc">
     <canvas id="gameCanvas" width="160" height="144"></canvas>
 
+    <div class="controls">
+        <button class="control-btn" onclick="emulatorjs_buttons('A')">A</button>
+        <button class="control-btn" onclick="emulatorjs_buttons('B')">B</button>
+        <button class="control-btn" onclick="emulatorjs_buttons('START')">Start</button>
+        <button class="control-btn" onclick="emulatorjs_buttons('SELECT')">Select</button>
+    </div>
+
+    <!-- Inclure Emulator.js -->
     <script src="emulatorjs/data/emulator.min.js"></script>
+
     <script>
         const romInput = document.getElementById('romInput');
+        const canvas = document.getElementById('gameCanvas');
+        
         romInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const romData = e.target.result;
-                    EJS_start({
-                        'gameUrl': URL.createObjectURL(new Blob([romData], { type: 'application/octet-stream' })),
-                        'system': 'gb',
-                        'emulatorJSRoot': 'emulatorjs/data/',
-                        'canvas': document.getElementById('gameCanvas')
-                    });
+                    startEmulation(romData);
                 };
                 reader.readAsArrayBuffer(file);
             }
         });
+
+        function startEmulation(romData) {
+            EJS_player = '#gameCanvas';  // Associer à l'élément canvas
+            EJS_core = 'gb';  // Choisir le core de Game Boy
+            EJS_biosUrl = '';  // Si nécessaire, spécifier un BIOS
+            EJS_gameData = romData;  // ROM chargée
+
+            EJS_start();  // Démarrer l'émulation
+        }
+
+        function emulatorjs_buttons(button) {
+            EJS_input(button);
+        }
     </script>
 </body>
 </html>
