@@ -3,72 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Boy Emulator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        canvas {
-            border: 2px solid black;
-            margin-top: 20px;
-        }
-        .controls {
-            margin-top: 20px;
-        }
-        .control-btn {
-            padding: 10px 20px;
-            margin: 5px;
-            font-size: 16px;
-        }
-    </style>
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval';">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https://sanctuary.kindredlabs.ai;">
+    <title>Game Emulator</title>
+
+    <!-- Inclusion du fichier EmulatorJS -->
+    <script src="emulatorjs/data/emulator.min.js"></script>
+    <script src="emulatorjs/data/GameManager.js"></script>
+    <link rel="stylesheet" href="emulatorjs/data/emulator.min.css">
 </head>
 <body>
-    <h1>Game Boy Emulator</h1>
-    <input type="file" id="romInput" accept=".gb, .gbc">
-    <canvas id="gameCanvas" width="160" height="144"></canvas>
+    <h1>Emulateur de Jeux</h1>
 
-    <div class="controls">
-        <button class="control-btn" id="btnA">A</button>
-        <button class="control-btn" id="btnB">B</button>
-        <button class="control-btn" id="btnStart">Start</button>
-        <button class="control-btn" id="btnSelect">Select</button>
-    </div>
+    <!-- Zone de téléchargement de ROM -->
+    <label for="romFile">Choisissez votre fichier ROM :</label>
+    <input type="file" id="romFile" accept=".gb, .gba, .nes, .snes, .zip">
 
-    <script src="emulatorjs/emulator.js"></script> <!-- Chemin mis à jour -->
+    <!-- Bouton pour démarrer l'émulation -->
+    <button id="startButton" onclick="loadRom()">Démarrer l'émulation</button>
+
+    <!-- Zone où l'émulation sera affichée -->
+    <canvas id="emulatorCanvas" width="640" height="480" style="border:1px solid #000;"></canvas>
+
+    <!-- Script pour gérer le téléchargement et le démarrage de la ROM -->
     <script>
-        const romInput = document.getElementById('romInput');
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
+        // Fonction pour charger la ROM et lancer l'émulation
+        function loadRom() {
+            const fileInput = document.getElementById('romFile');
+            const file = fileInput.files[0];
 
-        romInput.addEventListener('change', (event) => {
-            const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const romData = e.target.result;
-                    startEmulation(romData);
+                    const arrayBuffer = e.target.result;
+                    startEmulation(arrayBuffer);
                 };
                 reader.readAsArrayBuffer(file);
+            } else {
+                alert('Veuillez sélectionner un fichier ROM.');
             }
-        });
+        }
 
+        // Fonction pour démarrer l'émulation avec EmulatorJS
         function startEmulation(romData) {
-            try {
-                // Commence l'émulation avec le script d'emulator.js
-                EJS_start({
-                    canvas: canvas,
-                    gameData: romData,
-                    system: "gb"
-                });
-            } catch (error) {
-                console.error('Erreur lors du démarrage de l\'émulation :', error);
-                ctx.fillStyle = 'red';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'white';
-                ctx.fillText('Game loading failed...', 30, 70);
-            }
+            EJS_start({
+                gameData: romData,
+                system: 'gba', // Modifiez ici selon le système : gb, nes, snes, gba, etc.
+                canvasId: 'emulatorCanvas',
+                autoplay: true, // Lance automatiquement le jeu
+                width: 640,
+                height: 480
+            });
         }
     </script>
 </body>
