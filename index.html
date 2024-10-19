@@ -3,51 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval';">
     <title>Game Emulator</title>
-
-    <!-- Correction des chemins vers les fichiers JS et CSS -->
-    <script src="emulatorjs/data/emulator.min.js"></script>
-    <link rel="stylesheet" href="emulatorjs/data/emulator.min.css">
+    <style>
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
-    <h1>Emulateur de Jeux</h1>
+    <h1>Web-based Game Emulator</h1>
 
-    <label for="romFile">Choisissez votre fichier ROM :</label>
-    <input type="file" id="romFile" accept=".gb, .gba, .nes, .snes, .zip">
+    <input type="file" id="fileInput" accept=".gb,.gbc,.gba" />
+    <canvas id="emulatorCanvas"></canvas>
+    <p id="status">Please select a ROM file to start the emulation.</p>
 
-    <button id="startButton" onclick="loadRom()">Démarrer l'émulation</button>
-
-    <canvas id="emulatorCanvas" width="640" height="480" style="border:1px solid #000;"></canvas>
+    <script src="emulatorjs/data/emulator.min.js"></script>
 
     <script>
-        function loadRom() {
-            const fileInput = document.getElementById('romFile');
-            const file = fileInput.files[0];
+        document.getElementById('fileInput').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            const canvas = document.getElementById('emulatorCanvas');
+            const status = document.getElementById('status');
 
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const arrayBuffer = e.target.result;
-                    startEmulation(arrayBuffer);
-                };
-                reader.readAsArrayBuffer(file);
-            } else {
-                alert('Veuillez sélectionner un fichier ROM.');
-            }
-        }
+            reader.onload = function () {
+                const arrayBuffer = reader.result;
+                const emulator = new Emulator({
+                    canvas: canvas, // The canvas to render on
+                    autoload: true // Autoload once the ROM is loaded
+                });
 
-        // Fonction de démarrage de l'émulateur avec EmulatorJS
-        function startEmulation(romData) {
-            EJS_start({
-                gameData: romData,
-                system: 'gba',
-                canvasId: 'emulatorCanvas',
-                autoplay: true,
-                width: 640,
-                height: 480
-            });
-        }
+                // Load the ROM from the array buffer
+                emulator.loadRom(new Uint8Array(arrayBuffer)).then(() => {
+                    status.textContent = 'ROM loaded successfully. Starting the game...';
+                    
+                    // Start the emulator
+                    emulator.start().then(() => {
+                        status.textContent = 'Game running!';
+                    }).catch(err => {
+                        status.textContent = 'Error starting the emulator: ' + err.message;
+                    });
+                }).catch(err => {
+                    status.textContent = 'Failed to load ROM: ' + err.message;
+                });
+            };
+            
+            // Read the file as an array buffer
+            reader.readAsArrayBuffer(file);
+        });
     </script>
 </body>
 </html>
