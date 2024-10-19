@@ -22,54 +22,49 @@
             font-size: 16px;
         }
     </style>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval';">
 </head>
 <body>
     <h1>Game Boy Emulator</h1>
-    <input type="file" id="romInput" accept=".gb, .gba, .gbc">
+    <input type="file" id="romInput" accept=".gb, .gbc">
     <canvas id="gameCanvas" width="160" height="144"></canvas>
 
     <div class="controls">
-        <button class="control-btn">A</button>
-        <button class="control-btn">B</button>
-        <button class="control-btn">Start</button>
-        <button class="control-btn">Select</button>
+        <button class="control-btn" id="btnA">A</button>
+        <button class="control-btn" id="btnB">B</button>
+        <button class="control-btn" id="btnStart">Start</button>
+        <button class="control-btn" id="btnSelect">Select</button>
     </div>
 
-    <!-- Charger EmulatorJS ici -->
-    <script src="emulatorjs/data/emulator.min.js"></script>
-
+    <script src="emulatorjs/emulator.js"></script> <!-- Chemin mis à jour -->
     <script>
         const romInput = document.getElementById('romInput');
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
-        // Wait for EmulatorJS to be ready
-        window.addEventListener('load', () => {
-            romInput.addEventListener('change', (event) => {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const romData = e.target.result;
-                        
-                        setTimeout(() => {
-                            startEmulation(romData);
-                        }, 1000); // 1-second delay before starting emulation
-                    };
-                    reader.readAsArrayBuffer(file);
-                }
-            });
+        romInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const romData = e.target.result;
+                    startEmulation(romData);
+                };
+                reader.readAsArrayBuffer(file);
+            }
         });
 
         function startEmulation(romData) {
-            if (typeof EJS_start !== 'undefined') {
-                EJS_player = '#gameCanvas';
-                EJS_core = ['gb', 'gba'];
-                EJS_gameData = romData;
-                EJS_start();
-            } else {
-                console.error('EJS_start is not defined');
-                ctx.fillStyle = 'black';
+            try {
+                // Commence l'émulation avec le script d'emulator.js
+                EJS_start({
+                    canvas: canvas,
+                    gameData: romData,
+                    system: "gb"
+                });
+            } catch (error) {
+                console.error('Erreur lors du démarrage de l\'émulation :', error);
+                ctx.fillStyle = 'red';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = 'white';
                 ctx.fillText('Game loading failed...', 30, 70);
@@ -78,4 +73,3 @@
     </script>
 </body>
 </html>
-
