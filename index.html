@@ -50,7 +50,11 @@
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         const romData = e.target.result;
-                        startEmulation(romData);
+                        
+                        // Delay added before starting the emulation
+                        setTimeout(() => {
+                            startEmulation(romData);
+                        }, 1000); // 1000 ms (1 second) delay
                     };
                     reader.readAsArrayBuffer(file);
                 }
