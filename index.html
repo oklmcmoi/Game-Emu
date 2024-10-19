@@ -43,7 +43,8 @@
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
-        window.onload = function() {
+        // Wait for EmulatorJS to be ready
+        window.addEventListener('load', () => {
             romInput.addEventListener('change', (event) => {
                 const file = event.target.files[0];
                 if (file) {
@@ -51,15 +52,14 @@
                     reader.onload = function(e) {
                         const romData = e.target.result;
                         
-                        // Delay added before starting the emulation
                         setTimeout(() => {
                             startEmulation(romData);
-                        }, 1000); // 1000 ms (1 second) delay
+                        }, 1000); // 1-second delay before starting emulation
                     };
                     reader.readAsArrayBuffer(file);
                 }
             });
-        };
+        });
 
         function startEmulation(romData) {
             if (typeof EJS_start !== 'undefined') {
