@@ -6,47 +6,41 @@
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self';
         script-src 'self' 'unsafe-inline' 'unsafe-eval';
-        style-src 'self' 'unsafe-inline';
-        font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        font-src 'self' https://fonts.gstatic.com;
         img-src 'self' data:;
         connect-src 'self' https://sanctuary.kindredlabs.ai;">
-    <title>Game Emulator</title>
-    
-    <!-- Styles -->
     <link rel="stylesheet" href="./Emulatorjs/data/emulator.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap">
+    <title>Game Emulator</title>
 </head>
 <body>
-    <h1>Game Emulator</h1>
-    
-    <!-- Game Container -->
-    <div id="game-container"></div>
-    
-    <!-- ROM Input -->
-    <input type="file" id="romFileInput">
-    <button id="startButton">Start Game</button>
+    <h1>Welcome to the Game Emulator</h1>
+    <p>Load your ROM file to start the game.</p>
 
-    <!-- Scripts -->
+    <input type="file" id="upload-rom" accept=".gb, .gbc, .gba">
+    <button onclick="startEmulation()">Start Game</button>
+
+    <canvas id="emulator-canvas"></canvas>
+
     <script src="./Emulatorjs/data/emulator.min.js"></script>
+
     <script>
-        document.getElementById('startButton').addEventListener('click', startEmulation);
+        let emulator;
 
         function startEmulation() {
-            var romInput = document.getElementById('romFileInput');
-            var romFile = romInput.files[0];
-            if (!romFile) {
-                alert("Please select a ROM file.");
-                return;
-            }
-            
-            if (typeof Emulator !== "undefined") {
-                var fileReader = new FileReader();
-                fileReader.onload = function(readerEvent) {
-                    Emulator.start(readerEvent.target.result);
+            const romFile = document.getElementById('upload-rom').files[0];
+            if (romFile) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    const romData = new Uint8Array(event.target.result);
+                    emulator = new Emulator();
+                    emulator.loadRom(romData);
+                    emulator.start();
                 };
-                fileReader.readAsArrayBuffer(romFile);
+                reader.readAsArrayBuffer(romFile);
             } else {
-                console.error("Emulator is not defined. Check the script path.");
+                alert('Please select a ROM file.');
             }
         }
     </script>
