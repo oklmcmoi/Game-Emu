@@ -30,13 +30,12 @@
             reader.onload = function () {
                 const arrayBuffer = reader.result;
                 const emulator = new Emulator({
-                    canvas: canvas, // The canvas to render on
-                    autoload: true // Autoload once the ROM is loaded
+                    canvas: canvas, 
+                    autoload: true 
                 });
 
                 emulator.loadRom(new Uint8Array(arrayBuffer)).then(() => {
                     status.textContent = 'ROM loaded successfully. Starting the game...';
-
                     emulator.start().then(() => {
                         status.textContent = 'Game running!';
                     }).catch(err => {
