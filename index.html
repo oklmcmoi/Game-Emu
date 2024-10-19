@@ -1,73 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Game Emulator</title>
-  <link rel="stylesheet" href="/emulator.min.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-    #emulator-container {
-      border: 2px solid black;
-      width: 480px;
-      height: 320px;
-      margin: 20px auto;
-    }
-    .controls {
-      margin-top: 20px;
-    }
-    .control-btn {
-      padding: 10px 20px;
-      margin: 5px;
-      font-size: 16px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';">
+    <title>Game Emulator</title>
+    
+    <!-- Liens CSS (corrigés avec les bons chemins) -->
+    <link rel="stylesheet" href="./Emulatorjs/data/emulator.min.css">
 </head>
 <body>
-  <h1>Game Emulator</h1>
-  <div id="emulator-container"></div>
-  
-  <div class="controls">
-    <button class="control-btn">A</button>
-    <button class="control-btn">B</button>
-    <button class="control-btn">Start</button>
-    <button class="control-btn">Select</button>
-  </div>
+    <h1>Game Emulator</h1>
+    
+    <!-- Zone pour le jeu -->
+    <div id="game-container"></div>
+    
+    <!-- Input pour charger une ROM -->
+    <input type="file" id="romFileInput">
+    <button onclick="startEmulation()">Start Game</button>
 
-  <input type="file" id="romInput" accept=".gb, .gbc">
-  
-  <script src="/emulator.min.js"></script>
-  <script>
-    document.getElementById('romInput').addEventListener('change', (event) => {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const romData = e.target.result;
-          startEmulation(romData);
-        };
-        reader.readAsArrayBuffer(file);
-      }
-    });
-
-    function startEmulation(romData) {
-      try {
-        if (typeof Emulator !== 'undefined') {
-          const emulatorContainer = document.getElementById('emulator-container');
-          Emulator.start({ 
-            canvas: emulatorContainer, 
-            game: romData 
-          });
-        } else {
-          console.error('Emulator is not defined. Check the script path.');
+    <!-- Liens JavaScript (corrigés avec les bons chemins) -->
+    <script src="./Emulatorjs/data/emulator.min.js"></script>
+    <script>
+        function startEmulation() {
+            var romInput = document.getElementById('romFileInput');
+            var romFile = romInput.files[0];
+            if (!romFile) {
+                alert("Please select a ROM file.");
+                return;
+            }
+            
+            // Assurez-vous que l'objet Emulator est défini avant de l'utiliser
+            if (typeof Emulator !== "undefined") {
+                var fileReader = new FileReader();
+                fileReader.onload = function(readerEvent) {
+                    Emulator.start(readerEvent.target.result);
+                };
+                fileReader.readAsArrayBuffer(romFile);
+            } else {
+                console.error("Emulator is not defined. Check the script path.");
+            }
         }
-      } catch (error) {
-        console.error('Error while starting the emulator:', error);
-      }
-    }
-  </script>
+    </script>
 </body>
 </html>
