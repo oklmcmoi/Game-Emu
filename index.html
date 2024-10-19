@@ -1,53 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Emulator</title>
-    <style>
-        canvas {
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Emulator</title>
+  <link rel="stylesheet" href="/emulator.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    #emulator-container {
+      border: 2px solid black;
+      width: 480px;
+      height: 320px;
+      margin: 20px auto;
+    }
+    .controls {
+      margin-top: 20px;
+    }
+    .control-btn {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Web-based Game Emulator</h1>
+  <h1>Game Emulator</h1>
+  <div id="emulator-container"></div>
+  
+  <div class="controls">
+    <button class="control-btn">A</button>
+    <button class="control-btn">B</button>
+    <button class="control-btn">Start</button>
+    <button class="control-btn">Select</button>
+  </div>
 
-    <input type="file" id="fileInput" accept=".gb,.gbc,.gba" />
-    <canvas id="emulatorCanvas"></canvas>
-    <p id="status">Please select a ROM file to start the emulation.</p>
+  <input type="file" id="romInput" accept=".gb, .gbc">
+  
+  <script src="/emulator.min.js"></script>
+  <script>
+    document.getElementById('romInput').addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const romData = e.target.result;
+          startEmulation(romData);
+        };
+        reader.readAsArrayBuffer(file);
+      }
+    });
 
-    <script src="emulatorjs/data/emulator.min.js"></script>
-
-    <script>
-        document.getElementById('fileInput').addEventListener('change', function (event) {
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            const canvas = document.getElementById('emulatorCanvas');
-            const status = document.getElementById('status');
-
-            reader.onload = function () {
-                const arrayBuffer = reader.result;
-                const emulator = new Emulator({
-                    canvas: canvas, 
-                    autoload: true 
-                });
-
-                emulator.loadRom(new Uint8Array(arrayBuffer)).then(() => {
-                    status.textContent = 'ROM loaded successfully. Starting the game...';
-                    emulator.start().then(() => {
-                        status.textContent = 'Game running!';
-                    }).catch(err => {
-                        status.textContent = 'Error starting the emulator: ' + err.message;
-                    });
-                }).catch(err => {
-                    status.textContent = 'Failed to load ROM: ' + err.message;
-                });
-            };
-
-            reader.readAsArrayBuffer(file);
-        });
-    </script>
+    function startEmulation(romData) {
+      try {
+        if (typeof Emulator !== 'undefined') {
+          const emulatorContainer = document.getElementById('emulator-container');
+          Emulator.start({ 
+            canvas: emulatorContainer, 
+            game: romData 
+          });
+        } else {
+          console.error('Emulator is not defined. Check the script path.');
+        }
+      } catch (error) {
+        console.error('Error while starting the emulator:', error);
+      }
+    }
+  </script>
 </body>
 </html>
