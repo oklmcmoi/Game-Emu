@@ -1,8 +1,0 @@
-[build]
-  publish = "path/to/your/public/directory" # Spécifie le chemin du dossier contenant index.html
-  command = "" # Laisse vide si tu n'as pas de build command
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
