@@ -3,46 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="
-        default-src 'self';
-        script-src 'self' 'unsafe-inline' 'unsafe-eval';
-        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-        font-src 'self' https://fonts.gstatic.com;
-        img-src 'self' data:;
-        connect-src 'self' https://sanctuary.kindredlabs.ai;">
-    <link rel="stylesheet" href="./Emulatorjs/data/emulator.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap">
     <title>Game Emulator</title>
+    
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline';">
+
+    <!-- Linking CSS -->
+    <link rel="stylesheet" href="webretro-master/assets/base.css">
+    <link rel="stylesheet" href="webretro-master/assets/emulator.min.css">
+
+    <!-- Adding fonts if needed -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap">
+
 </head>
 <body>
-    <h1>Welcome to the Game Emulator</h1>
-    <p>Load your ROM file to start the game.</p>
+    <div id="emulator-container"></div>
 
-    <input type="file" id="upload-rom" accept=".gb, .gbc, .gba">
-    <button onclick="startEmulation()">Start Game</button>
+    <!-- Linking JavaScript Files -->
+    <script src="webretro-master/assets/emulator.min.js"></script>
+    <script src="webretro-master/assets/base.js"></script>
 
-    <canvas id="emulator-canvas"></canvas>
-
-    <script src="./Emulatorjs/data/emulator.min.js"></script>
-
+    <!-- Your custom scripts for launching the emulator -->
     <script>
-        let emulator;
-
-        function startEmulation() {
-            const romFile = document.getElementById('upload-rom').files[0];
-            if (romFile) {
-                const reader = new FileReader();
-                reader.onload = function (event) {
-                    const romData = new Uint8Array(event.target.result);
-                    emulator = new Emulator();
-                    emulator.loadRom(romData);
-                    emulator.start();
-                };
-                reader.readAsArrayBuffer(romFile);
-            } else {
-                alert('Please select a ROM file.');
-            }
-        }
+        // Assure-toi que ce script correspond bien à l'émulateur que tu utilises
+        // Initialise l'émulateur ici
+        // Exemple de script basique :
+        Emulator.init({
+            canvasId: 'emulator-container',
+            gameFile: 'chemin/vers/le/fichier/rom.gba'
+        });
     </script>
 </body>
 </html>
