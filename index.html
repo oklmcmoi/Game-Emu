@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebRetro Game Boy Emulator</title>
-    <link rel="stylesheet" href="webretro-master/assets/base.css">
-    <script src="webretro-master/assets/base.js"></script>
-    <script src="webretro-master/cores/mgba_libretro.js"></script>
-    <style>
-        /* Ajout de styles inline */
-        canvas {
-            display: block;
-            margin: auto;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebRetro Emulator</title>
+  <link rel="stylesheet" href="assets/emulator.min.css">
+  <script src="assets/emulator.min.js"></script>
 </head>
 <body>
-    <h1>Lancer un jeu Game Boy avec WebRetro</h1>
-    <div id="emulator-container">
-        <!-- L'émulateur apparaîtra ici -->
-    </div>
-    <script>
-        // Script pour charger la ROM
-        function loadRom(rom) {
-            fetch(rom)
-                .then(response => response.arrayBuffer())
-                .then(buffer => {
-                    const core = new Libretro();
-                    core.loadCore('webretro-master/cores/mgba_libretro.js');
-                    core.loadRom(buffer);
-                    document.getElementById('emulator-container').appendChild(core.canvas);
-                    core.run();
-                })
-                .catch(err => console.error('Erreur chargement ROM:', err));
-        }
+  <h1>Welcome to WebRetro Emulator</h1>
 
-        // Charger une ROM prédéfinie
-        loadRom('path_to_your_rom_file.gba');
-    </script>
+  <input type="file" id="romInput" />
+  <br>
+  <canvas id="emulatorCanvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('emulatorCanvas');
+    const romInput = document.getElementById('romInput');
+
+    romInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        const arrayBuffer = e.target.result;
+        startEmulator(arrayBuffer);
+      };
+
+      reader.readAsArrayBuffer(file);
+    });
+
+    function startEmulator(romData) {
+      const emulator = new Emulator('emulatorCanvas', {
+        file: romData,
+        core: 'mgba_libretro',  // Spécifiez le noyau libretro à utiliser
+      });
+      emulator.start();
+    }
+  </script>
 </body>
 </html>
