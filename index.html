@@ -3,35 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Emulator</title>
-    
-    <!-- Content Security Policy -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline';">
-
-    <!-- Linking CSS -->
+    <title>WebRetro Game Boy Emulator</title>
     <link rel="stylesheet" href="webretro-master/assets/base.css">
-    <link rel="stylesheet" href="webretro-master/assets/emulator.min.css">
-
-    <!-- Adding fonts if needed -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap">
-
+    <script src="webretro-master/assets/base.js"></script>
+    <script src="webretro-master/cores/mgba_libretro.js"></script>
+    <style>
+        /* Ajout de styles inline */
+        canvas {
+            display: block;
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
-    <div id="emulator-container"></div>
-
-    <!-- Linking JavaScript Files -->
-    <script src="webretro-master/assets/emulator.min.js"></script>
-    <script src="webretro-master/assets/base.js"></script>
-
-    <!-- Your custom scripts for launching the emulator -->
+    <h1>Lancer un jeu Game Boy avec WebRetro</h1>
+    <div id="emulator-container">
+        <!-- L'émulateur apparaîtra ici -->
+    </div>
     <script>
-        // Assure-toi que ce script correspond bien à l'émulateur que tu utilises
-        // Initialise l'émulateur ici
-        // Exemple de script basique :
-        Emulator.init({
-            canvasId: 'emulator-container',
-            gameFile: 'chemin/vers/le/fichier/rom.gba'
-        });
+        // Script pour charger la ROM
+        function loadRom(rom) {
+            fetch(rom)
+                .then(response => response.arrayBuffer())
+                .then(buffer => {
+                    const core = new Libretro();
+                    core.loadCore('webretro-master/cores/mgba_libretro.js');
+                    core.loadRom(buffer);
+                    document.getElementById('emulator-container').appendChild(core.canvas);
+                    core.run();
+                })
+                .catch(err => console.error('Erreur chargement ROM:', err));
+        }
+
+        // Charger une ROM prédéfinie
+        loadRom('path_to_your_rom_file.gba');
     </script>
 </body>
 </html>
