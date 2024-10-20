@@ -21,7 +21,7 @@
 
     /* Ajout de text-size-adjust avec et sans préfixe */
     -webkit-text-size-adjust: 100%; /* Webkit (Chrome, Safari) */
-    text-size-adjust: 100%;         /* Standard pour Chrome, Firefox, et autres */
+    text-size-adjust: 100%;         /* Chrome, Firefox, Safari */
     
     /* Ajout de mask-image pour compatibilité avec Firefox */
     -webkit-mask-image: url('mask.png'); /* Webkit (Chrome, Safari) */
@@ -272,7 +272,3 @@
     -moz-appearance: none;
     appearance: none; /* Standard après */
 }
-
-/* Le reste de ton fichier CSS est inchangé... */
-
-/* Fin des modifications */
