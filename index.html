@@ -1,42 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebRetro Emulator</title>
-  <link rel="stylesheet" href="assets/emulator.min.css">
-  <script src="assets/emulator.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameBoy Emulator</title>
+    <!-- Lien vers les fichiers CSS -->
+    <link rel="stylesheet" href="webretro-master\webretro-master\assets/emulator.min.css">
+    <style>
+        /* Styles de l'interface */
+        #emulator-frame {
+            border: 5px solid #000;
+            width: 480px;
+            height: 432px;
+            background-color: #f0f0f0;
+            position: relative;
+            margin: auto;
+        }
+
+        #gameboy-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .button {
+            width: 80px;
+            height: 80px;
+            background-color: #ccc;
+            margin: 10px;
+            border-radius: 50%;
+        }
+    </style>
 </head>
 <body>
-  <h1>Welcome to WebRetro Emulator</h1>
+    <!-- Cadre de l'émulateur -->
+    <div id="emulator-frame">
+        <canvas id="screen" width="480" height="432"></canvas>
+    </div>
 
-  <input type="file" id="romInput" />
-  <br>
-  <canvas id="emulatorCanvas"></canvas>
+    <!-- Boutons de la Game Boy -->
+    <div id="gameboy-buttons">
+        <div class="button">A</div>
+        <div class="button">B</div>
+        <div class="button">Start</div>
+        <div class="button">Select</div>
+    </div>
 
-  <script>
-    const canvas = document.getElementById('emulatorCanvas');
-    const romInput = document.getElementById('romInput');
+    <!-- Input pour charger la ROM -->
+    <input type="file" id="file-input" />
 
-    romInput.addEventListener('change', (event) => {
-      const file = event.target.files[0];
-      const reader = new FileReader();
+    <!-- Lien vers le fichier JavaScript de l'émulateur -->
+    <script src="webretro-master\webretro-master\assets\emulator.min.js"></script>
+    <script>
+        const canvas = document.getElementById('screen');
+        const fileInput = document.getElementById('file-input');
 
-      reader.onload = function(e) {
-        const arrayBuffer = e.target.result;
-        startEmulator(arrayBuffer);
-      };
+        // Écoute le chargement d'un fichier ROM
+        fileInput.addEventListener('change', function() {
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const romData = e.target.result;
+                    startEmulator(romData);  // Assurez-vous que cette fonction existe dans votre script
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        });
 
-      reader.readAsArrayBuffer(file);
-    });
-
-    function startEmulator(romData) {
-      const emulator = new Emulator('emulatorCanvas', {
-        file: romData,
-        core: 'mgba_libretro',  // Spécifiez le noyau libretro à utiliser
-      });
-      emulator.start();
-    }
-  </script>
+        // Fonction pour démarrer l'émulateur
+        function startEmulator(romData) {
+            if (typeof Emulator !== 'undefined') {
+                const emulator = new Emulator(canvas, romData);
+                emulator.start();
+            } else {
+                console.error('Emulator is not defined');
+            }
+        }
+    </script>
 </body>
 </html>

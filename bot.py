@@ -1,40 +1,39 @@
-from telethon import TelegramClient, events
 
-# Remplacez par vos informations appropriées
-api_id = '20978790'
-api_hash = 'b4df337d80faa487e8bbd2d12253f515'
+import telebot
+from telebot import types
+import os
+
+# Ton token de bot Telegram ici
 bot_token = '7567541541:AAH9pEbAiEfMVjNcVeC70Rmm50VKoJ3gJdE'
+bot = telebot.TeleBot(bot_token)
 
-# Créer une instance du bot
-client = TelegramClient('new_gameboy_bot_session', api_id, api_hash).start(bot_token=bot_token)
+# Chemin du dossier où les ROMs seront sauvegardées
+roms_dir = "webretro-master/assets/roms/"
 
-# Commande /start pour rediriger l'utilisateur vers l'émulateur en ligne
-@client.on(events.NewMessage(pattern='/start'))
-async def start(event):
-    await event.respond(
-        "Bienvenue ! 🎮 Cliquez ici pour accéder à l'émulateur Game Boy : [Cliquez ici](https://game-emu.vercel.app)\n"
-        "Envoyez une ROM pour commencer à jouer !"
-    )
+# Commande start
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    bot.reply_to(message, "Bienvenue ! Envoie-moi une ROM de jeu Game Boy pour commencer !")
 
-# Commande /help pour fournir des instructions supplémentaires
-@client.on(events.NewMessage(pattern='/help'))
-async def help(event):
-    await event.respond(
-        "Commandes disponibles :\n"
-        "/start - Pour commencer et obtenir le lien vers l'émulateur.\n"
-        "/help - Pour voir les instructions.\n"
-        "Envoyez une ROM Game Boy (.gb, .gbc) pour jouer directement dans l'émulateur."
-    )
+# Commande pour gérer l'envoi d'une ROM
+@bot.message_handler(content_types=['document'])
+def handle_rom(message):
+    try:
+        # Récupérer le fichier
+        file_info = bot.get_file(message.document.file_id)
+        downloaded_file = bot.download_file(file_info.file_path)
 
-# Commande pour gérer l'envoi de ROMs
-@client.on(events.NewMessage)
-async def handle_rom(event):
-    if event.message.file and (event.message.file.name.endswith('.gb') or event.message.file.name.endswith('.gbc')):
-        await event.respond("ROM reçue ! ⏳ Veuillez patienter pendant l'émulation...")
+        # Sauvegarder la ROM dans le dossier
+        rom_name = message.document.file_name
+        with open(os.path.join(roms_dir, rom_name), 'wb') as rom_file:
+            rom_file.write(downloaded_file)
+        
+        # Générer le lien pour l'émulateur
+        rom_url = f"https://ton-site.netlify.app/assets/roms/{rom_name}"
+        bot.reply_to(message, f"ROM uploadée avec succès ! Tu peux jouer en cliquant ici : {rom_url}")
 
-        # Vous pouvez ici étendre le code pour gérer l'émulation côté serveur ou donner des instructions supplémentaires.
-    elif event.message.text:
-        await event.respond("Je ne comprends pas ce message 🤔. Utilisez /help pour voir ce que je peux faire.")
+    except Exception as e:
+        bot.reply_to(message, "Une erreur est survenue lors du traitement de la ROM.")
+        print(e)
 
-# Lancer le bot
-client.run_until_disconnected()
+bot.polling()
