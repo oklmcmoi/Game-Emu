@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameBoy Emulator</title>
-    <!-- Lien vers les fichiers CSS -->
     <link rel="stylesheet" href="webretro-master/assets/emulator.min.css">
-    ">
     <style>
-        /* Styles de l'interface */
         #emulator-frame {
             border: 5px solid #000;
             width: 480px;
@@ -32,16 +29,13 @@
             border-radius: 50%;
         }
     </style>
-    <!-- Import Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap">
 </head>
 <body>
-    <!-- Cadre de l'émulateur -->
     <div id="emulator-frame">
         <canvas id="screen" width="480" height="432"></canvas>
     </div>
 
-    <!-- Boutons de la Game Boy -->
     <div id="gameboy-buttons">
         <div class="button">A</div>
         <div class="button">B</div>
@@ -49,33 +43,29 @@
         <div class="button">Select</div>
     </div>
 
-    <!-- Input pour charger la ROM -->
-    <input type="file" id="file-input" />
+    <!-- Ajout du label pour l'accessibilité -->
+    <label for="file-input">Charger une ROM :</label>
+    <input type="file" id="file-input" aria-label="Charger une ROM de jeu Game Boy" />
 
-    <!-- Lien vers le fichier JavaScript de l'émulateur -->
     <script src="webretro-master/assets/emulator.min.js"></script>
-    
-    <!-- Lien vers le fichier customEmulator.js (nouveau fichier JavaScript pour définir l'objet Emulator) -->
-    <script src="customEmulator.js"></script> <!-- Change le chemin vers ton fichier customEmulator.js -->
+    <script src="customEmulator.js"></script>
 
     <script>
         const canvas = document.getElementById('screen');
         const fileInput = document.getElementById('file-input');
 
-        // Écoute le chargement d'un fichier ROM
         fileInput.addEventListener('change', function() {
             const file = fileInput.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const romData = e.target.result;
-                    startEmulator(romData);  // Assurez-vous que cette fonction existe dans votre script
+                    startEmulator(romData);
                 };
                 reader.readAsArrayBuffer(file);
             }
         });
 
-        // Fonction pour démarrer l'émulateur
         function startEmulator(romData) {
             if (typeof Emulator !== 'undefined') {
                 const emulator = new Emulator(canvas, romData);
