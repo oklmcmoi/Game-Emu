@@ -28,8 +28,7 @@
     mask-image: url('mask.png');         /* Standard */
     -webkit-mask-image: url('mask.png'); /* Webkit (Chrome, Safari) */
 
-    /* Suppression des propriétés non supportées */
-    /* scrollbar-gutter: n'est pas supporté par Safari */
+    /* Suppression de scrollbar-gutter */
 }
 
 .ejs_parent *, .ejs_parent *::after, .ejs_parent *::before {
