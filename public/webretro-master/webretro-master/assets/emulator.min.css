@@ -27,6 +27,9 @@
     /* Compatibilité mask-image */
     mask-image: url('mask.png');         /* Firefox */
     -webkit-mask-image: url('mask.png'); /* Webkit (Chrome, Safari) */
+
+    /* Suppression des propriétés non supportées */
+    /* scrollbar-gutter n'est pas supporté par Safari */
 }
 
 .ejs_parent *, .ejs_parent *::after, .ejs_parent *::before {
@@ -60,7 +63,7 @@
 .ejs_parent {
     scrollbar-width: thin;              /* Firefox */
     scrollbar-color: transparent #f5f5f5;
-    /* Suppression de scrollbar-gutter */
+    /* Suppression de scrollbar-gutter pour Safari */
 }
 
 .ejs_ad_iframe {
@@ -190,7 +193,7 @@
 }
 
 .ejs_start_button:active, .ejs_start_button:hover {
-    /* Pointer-events minimisé pour les performances */
+    /* Minimiser les recalculs de pointer-events dans les animations */
     pointer-events: auto;
     animation: ejs_start_button_pulse 2s infinite;
 }
@@ -276,7 +279,7 @@
     appearance: none; /* Standard après */
 }
 
-/* Réorganisation et compatibilité pour height */
+/* Réorganisation des propriétés pour height */
 .ejs_game {
     width: inherit;
     height: -webkit-fill-available; /* Webkit */
