@@ -3,7 +3,7 @@
     overflow: hidden;
     position: relative;
     font-family: Avenir, "Avenir Next", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
-
+    
     /* Compatibilité user-select avec préfixes */
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none;    /* Firefox */
@@ -21,11 +21,12 @@
 
     /* Compatibilité text-size-adjust */
     -webkit-text-size-adjust: 100%; /* Webkit */
-    text-size-adjust: 100%;         /* Chrome, Firefox, Safari */
+    -moz-text-size-adjust: 100%;    /* Firefox */
+    text-size-adjust: 100%;         /* Standard */
 
     /* Compatibilité mask-image */
-    -webkit-mask-image: url('mask.png'); /* Webkit (Chrome, Safari) */
     mask-image: url('mask.png');         /* Firefox */
+    -webkit-mask-image: url('mask.png'); /* Webkit (Chrome, Safari) */
 }
 
 .ejs_parent *, .ejs_parent *::after, .ejs_parent *::before {
@@ -59,9 +60,9 @@
 .ejs_parent {
     scrollbar-width: thin;
     scrollbar-color: transparent #f5f5f5;
-    /* Safari ne supporte pas scrollbar-gutter */
 }
 
+/* Réorganisation des propriétés pour la compatibilité */
 .ejs_ad_iframe {
     position: absolute;
     left: 50%;
@@ -267,9 +268,10 @@
     color: #fff;
 }
 
-/* Apparence: d'abord le préfixe, ensuite la version standard ECRIT PAR CED */
+/* Apparence: d'abord le préfixe, ensuite la version standard */
 .ejs_button {
     -moz-appearance: none;
     appearance: none; /* Standard après */
 }
+
 
