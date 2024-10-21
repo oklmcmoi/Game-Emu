@@ -25,7 +25,7 @@
     text-size-adjust: 100%;         /* Chrome, Firefox, Safari */
 
     /* Compatibilité mask-image */
-    mask-image: url('mask.png');         /* Standard */
+    mask-image: url('mask.png');         /* Firefox */
     -webkit-mask-image: url('mask.png'); /* Webkit (Chrome, Safari) */
 }
 
@@ -63,7 +63,6 @@
     /* Suppression de scrollbar-gutter */
 }
 
-/* Réorganisation des propriétés pour la compatibilité */
 .ejs_ad_iframe {
     position: absolute;
     left: 50%;
@@ -191,6 +190,8 @@
 }
 
 .ejs_start_button:active, .ejs_start_button:hover {
+    /* Pointer-events minimisé pour les performances */
+    pointer-events: auto;
     animation: ejs_start_button_pulse 2s infinite;
 }
 
@@ -275,13 +276,9 @@
     appearance: none; /* Standard après */
 }
 
-/* Correction des problèmes d'accessibilité */
-input[type="text"], input[type="email"], input[type="password"], textarea {
-    width: 100%;
-    padding: 8px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
+/* Réorganisation et compatibilité pour height */
+.ejs_game {
+    width: inherit;
+    height: -webkit-fill-available; /* Webkit */
+    height: 100vh;                  /* Standard */
 }
