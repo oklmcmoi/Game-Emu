@@ -27,8 +27,6 @@
     /* Compatibilité mask-image */
     mask-image: url('mask.png');         /* Standard */
     -webkit-mask-image: url('mask.png'); /* Webkit (Chrome, Safari) */
-
-    /* Suppression de scrollbar-gutter */
 }
 
 .ejs_parent *, .ejs_parent *::after, .ejs_parent *::before {
@@ -62,7 +60,7 @@
 .ejs_parent {
     scrollbar-width: thin;              /* Firefox */
     scrollbar-color: transparent #f5f5f5;
-    /* Suppression de scrollbar-gutter pour Safari */
+    /* Suppression de scrollbar-gutter */
 }
 
 /* Réorganisation des propriétés pour la compatibilité */
@@ -277,6 +275,13 @@
     appearance: none; /* Standard après */
 }
 
-/* Propriétés supprimées ou réorganisées pour éviter les erreurs ok ? */
-
-
+/* Correction des problèmes d'accessibilité */
+input[type="text"], input[type="email"], input[type="password"], textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
