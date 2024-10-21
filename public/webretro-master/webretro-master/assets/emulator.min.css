@@ -3,7 +3,7 @@
     overflow: hidden;
     position: relative;
     font-family: Avenir, "Avenir Next", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
-    
+
     /* Compatibilité user-select avec préfixes */
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none;    /* Firefox */
@@ -22,11 +22,14 @@
     /* Compatibilité text-size-adjust */
     -webkit-text-size-adjust: 100%; /* Webkit */
     -moz-text-size-adjust: 100%;    /* Firefox */
-    text-size-adjust: 100%;         /* Standard */
+    text-size-adjust: 100%;         /* Chrome, Firefox, Safari */
 
     /* Compatibilité mask-image */
-    mask-image: url('mask.png');         /* Firefox */
+    mask-image: url('mask.png');         /* Standard */
     -webkit-mask-image: url('mask.png'); /* Webkit (Chrome, Safari) */
+
+    /* Suppression des propriétés non supportées */
+    /* scrollbar-gutter: n'est pas supporté par Safari */
 }
 
 .ejs_parent *, .ejs_parent *::after, .ejs_parent *::before {
@@ -58,8 +61,9 @@
 
 /* Compatibilité scrollbar pour Safari */
 .ejs_parent {
-    scrollbar-width: thin;
+    scrollbar-width: thin;              /* Firefox */
     scrollbar-color: transparent #f5f5f5;
+    /* Suppression de scrollbar-gutter pour Safari */
 }
 
 /* Réorganisation des propriétés pour la compatibilité */
@@ -273,5 +277,7 @@
     -moz-appearance: none;
     appearance: none; /* Standard après */
 }
+
+/* Propriétés supprimées ou réorganisées pour éviter les erreurs */
 
 
