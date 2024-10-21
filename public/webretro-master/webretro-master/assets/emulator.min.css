@@ -267,8 +267,9 @@
     color: #fff;
 }
 
-/* Apparence: d'abord le préfixe, ensuite la version standard */
+/* Apparence: d'abord le préfixe, ensuite la version standard ECRIT PAR CED */
 .ejs_button {
     -moz-appearance: none;
     appearance: none; /* Standard après */
 }
+
