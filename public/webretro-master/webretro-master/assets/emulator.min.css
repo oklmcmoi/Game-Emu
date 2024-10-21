@@ -4,7 +4,7 @@
     position: relative;
     font-family: Avenir, "Avenir Next", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
 
-    /* Ajout de compatibilité user-select avec préfixes */
+    /* Compatibilité user-select avec préfixes */
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none;    /* Firefox */
     -ms-user-select: none;     /* Internet Explorer */
@@ -19,11 +19,11 @@
     outline: 0;
     font-size: 14px;
 
-    /* Ajout de text-size-adjust avec et sans préfixe */
-    -webkit-text-size-adjust: 100%; /* Webkit (Chrome, Safari) */
+    /* Compatibilité text-size-adjust */
+    -webkit-text-size-adjust: 100%; /* Webkit */
     text-size-adjust: 100%;         /* Chrome, Firefox, Safari */
-    
-    /* Ajout de mask-image pour compatibilité avec Firefox */
+
+    /* Compatibilité mask-image */
     -webkit-mask-image: url('mask.png'); /* Webkit (Chrome, Safari) */
     mask-image: url('mask.png');         /* Firefox */
 }
@@ -128,7 +128,7 @@
     position: relative;
     overflow: hidden;
 
-    /* Ajout de compatibilité pour height */
+    /* Compatibilité pour height */
     height: -webkit-fill-available; /* Webkit */
     height: 100vh;                  /* Standard */
 }
