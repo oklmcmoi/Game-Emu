@@ -25,12 +25,8 @@
     text-size-adjust: 100%;         /* Chrome, Firefox, Safari */
 
     /* Compatibilité mask-image */
-    mask-image: url('mask.png');         /* Standard */
+    mask-image: url('mask.png');         /* Firefox */
     -webkit-mask-image: url('mask.png'); /* Webkit (Chrome, Safari) */
-
-    /* Suppression des propriétés non supportées */
-    /* scrollbar-gutter n'est pas supporté par Safari */
-    /* text-wrap n'est pas supporté par Safari ou Firefox */
 }
 
 .ejs_parent *, .ejs_parent *::after, .ejs_parent *::before {
@@ -273,9 +269,11 @@
     color: #fff;
 }
 
+/* Apparence */
 .ejs_button {
     -moz-appearance: none;
-    appearance: none; /* Propriété standard après la version préfixée */
+    -webkit-appearance: none; /* Webkit pour Safari */
+    appearance: none;         /* Propriété standard après la version préfixée */
 }
 
 .ejs_game {
