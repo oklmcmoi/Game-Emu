@@ -264,7 +264,7 @@
 .ejs_context_menu li:hover {
     background: rgba(var(--ejs-primary-color), 1);
     border-radius: 4px;
-    box-shadow: 0 0 0 5px rgba(var(--ejs-primary-color), 0.5);
+    box-shadow: 0 0 0 5px rgba(var(--ejs-primary-coloor), 0.5);
     outline: 0;
 }
 
