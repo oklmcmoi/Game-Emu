@@ -25,8 +25,12 @@
     text-size-adjust: 100%;         /* Chrome, Firefox, Safari */
 
     /* Compatibilité mask-image */
-    mask-image: url('mask.png');         /* Standard pour Firefox */
+    mask-image: url('mask.png');         /* Firefox */
     -webkit-mask-image: url('mask.png'); /* Webkit (Chrome, Safari) */
+
+    /* Suppression des propriétés non supportées */
+    /* scrollbar-gutter n'est pas supporté par Safari */
+    /* text-wrap n'est pas supporté par Safari ou Firefox */
 }
 
 .ejs_parent *, .ejs_parent *::after, .ejs_parent *::before {
@@ -60,7 +64,7 @@
 .ejs_parent {
     scrollbar-width: thin;              /* Firefox */
     scrollbar-color: transparent #f5f5f5;
-    /* Suppression de scrollbar-gutter pour Safari */
+    /* Suppression de scrollbar-gutter */
 }
 
 .ejs_ad_iframe {
@@ -190,8 +194,7 @@
 }
 
 .ejs_start_button:active, .ejs_start_button:hover {
-    /* Pointer-events minimisé pour les performances */
-    pointer-events: auto;
+    pointer-events: auto;  /* Minimiser les recalculs de pointer-events */
     animation: ejs_start_button_pulse 2s infinite;
 }
 
@@ -268,17 +271,4 @@
 
 .ejs_context_menu li:hover a {
     color: #fff;
-}
-
-/* Apparence: d'abord le préfixe, ensuite la version standard */
-.ejs_button {
-    -moz-appearance: none;
-    appearance: none; /* Standard après */
-}
-
-/* Réorganisation des propriétés pour height */
-.ejs_game {
-    width: inherit;
-    height: -webkit-fill-available; /* Webkit */
-    height: 100vh;                  /* Standard */
 }
