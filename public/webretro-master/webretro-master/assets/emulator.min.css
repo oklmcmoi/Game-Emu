@@ -25,11 +25,11 @@
     text-size-adjust: 100%;         /* Chrome, Firefox, Safari */
 
     /* Compatibilité mask-image */
-    mask-image: url('mask.png');         /* Firefox */
+    mask-image: url('mask.png');         /* Standard */
     -webkit-mask-image: url('mask.png'); /* Webkit (Chrome, Safari) */
 
     /* Suppression des propriétés non supportées */
-    /* scrollbar-gutter et scrollbar-width non supportées par Safari */
+    /* scrollbar-gutter et scrollbar-width non supportés par Safari */
 }
 
 .ejs_parent *, .ejs_parent *::after, .ejs_parent *::before {
