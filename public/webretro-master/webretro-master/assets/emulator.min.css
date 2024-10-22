@@ -29,8 +29,7 @@
     -webkit-mask-image: url('mask.png'); /* Webkit (Chrome, Safari) */
 
     /* Suppression des propriétés non supportées */
-    /* scrollbar-gutter n'est pas supporté par Safari */
-    /* text-wrap n'est pas supporté par Safari ou Firefox */
+    /* scrollbar-gutter et scrollbar-width non supportées par Safari */
 }
 
 .ejs_parent *, .ejs_parent *::after, .ejs_parent *::before {
@@ -263,7 +262,7 @@
 }
 
 .ejs_context_menu li:hover {
-    background: rgba(var(--ejs-primary-coolor), 1);
+    background: rgba(var(--ejs-primary-color), 1);
     border-radius: 4px;
     box-shadow: 0 0 0 5px rgba(var(--ejs-primary-color), 0.5);
     outline: 0;
