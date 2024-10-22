@@ -25,11 +25,8 @@
     text-size-adjust: 100%;         /* Chrome, Firefox, Safari */
 
     /* Compatibilité mask-image */
-    mask-image: url('mask.png');         /* Firefox */
+    mask-image: url('mask.png');         /* Standard pour Firefox */
     -webkit-mask-image: url('mask.png'); /* Webkit (Chrome, Safari) */
-
-    /* Suppression des propriétés non supportées */
-    /* scrollbar-gutter n'est pas supporté par Safari */
 }
 
 .ejs_parent *, .ejs_parent *::after, .ejs_parent *::before {
@@ -193,7 +190,7 @@
 }
 
 .ejs_start_button:active, .ejs_start_button:hover {
-    /* Minimiser les recalculs de pointer-events dans les animations */
+    /* Pointer-events minimisé pour les performances */
     pointer-events: auto;
     animation: ejs_start_button_pulse 2s infinite;
 }
