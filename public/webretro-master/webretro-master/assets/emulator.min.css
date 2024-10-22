@@ -25,7 +25,7 @@
     text-size-adjust: 100%;         /* Chrome, Firefox, Safari */
 
     /* Compatibilité mask-image */
-    mask-image: url('mask.png');         /* Firefox */
+    mask-image: url('mask.png');         /* Standard */
     -webkit-mask-image: url('mask.png'); /* Webkit (Chrome, Safari) */
 
     /* Suppression des propriétés non supportées */
