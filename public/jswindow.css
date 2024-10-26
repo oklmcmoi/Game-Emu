@@ -1,0 +1,15 @@
+/* jswindow.css */
+#menubar ul {
+    list-style: none;
+    padding: 0;
+}
+
+#menubar li {
+    display: inline-block;
+    margin: 0 10px;
+    color: #ddd;
+}
+
+.pointer {
+    cursor: pointer;
+}
