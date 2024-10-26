@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameBoy Emulator</title>
     <link rel="stylesheet" href="webretro-master/assets/emulator.min.css">
@@ -37,16 +38,16 @@
     </div>
 
     <div id="gameboy-buttons">
-        <div class="button">A</div>
-        <div class="button">B</div>
-        <div class="button">Start</div>
-        <div class="button">Select</div>
+        <div class="button" role="button" aria-label="Button A">A</div>
+        <div class="button" role="button" aria-label="Button B">B</div>
+        <div class="button" role="button" aria-label="Button Start">Start</div>
+        <div class="button" role="button" aria-label="Button Select">Select</div>
     </div>
 
     <!-- Formulaire avec labels et attributs title et placeholder pour l’accessibilité -->
     <form>
         <label for="file-input">Sélectionner une ROM :</label>
-        <input type="file" id="file-input" name="file-input" title="Sélectionner une ROM pour la Game Boy">
+        <input type="file" id="file-input" name="file-input" title="Sélectionner une ROM pour la Game Boy" aria-label="Fichier ROM">
     </form>
 
     <script src="webretro-master/assets/emulator.min.js"></script>

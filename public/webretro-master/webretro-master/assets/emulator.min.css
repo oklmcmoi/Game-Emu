@@ -17,6 +17,7 @@
     font-size: 14px;
     mask-image: url('mask.png');
     -webkit-mask-image: url('mask.png');
+    text-size-adjust: 100%;
 }
 
 .ejs_parent *, .ejs_parent *::after, .ejs_parent *::before {
