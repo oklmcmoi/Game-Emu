@@ -3,13 +3,10 @@
     overflow: hidden;
     position: relative;
     font-family: Avenir, "Avenir Next", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
-
-    /* Compatibilité user-select avec préfixes */
-    -webkit-user-select: none; /* Safari */
-    -moz-user-select: none;    /* Firefox */
-    -ms-user-select: none;     /* Internet Explorer */
-    user-select: none;         /* Standard */
-
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     font-weight: 500;
     line-height: 1.7;
     width: 100%;
@@ -18,19 +15,8 @@
     outline-width: 0;
     outline: 0;
     font-size: 14px;
-
-    /* Compatibilité text-size-adjust */
-    -webkit-text-size-adjust: 100%; /* Webkit */
-    -moz-text-size-adjust: 100%;    /* Firefox */
-    text-size-adjust: 100%;         /* Chrome, Firefox, Safari */
-
-    /* Compatibilité mask-image */
-    -webkit-mask-image: url('mask.png'); /* Webkit */
-    mask-image: url('mask.png');         /* Firefox */
-
-    /* Suppression des propriétés non supportées */
-    /* scrollbar-gutter n'est pas supporté par Safari */
-    /* text-wrap n'est pas supporté par Safari ou Firefox */
+    mask-image: url('mask.png');
+    -webkit-mask-image: url('mask.png');
 }
 
 .ejs_parent *, .ejs_parent *::after, .ejs_parent *::before {
@@ -60,13 +46,6 @@
     background-color: transparent;
 }
 
-/* Compatibilité scrollbar pour Safari */
-.ejs_parent {
-    scrollbar-width: thin;              /* Firefox */
-    scrollbar-color: transparent #f5f5f5;
-    /* Suppression de scrollbar-gutter */
-}
-
 .ejs_ad_iframe {
     position: absolute;
     left: 50%;
@@ -89,42 +68,6 @@
     right: 0;
 }
 
-.ejs_ad_close a {
-    right: 4px;
-    top: 4px;
-    position: absolute;
-    border: 0;
-    padding: 0;
-    width: 15px;
-    height: 15px;
-    z-index: 99;
-}
-
-.ejs_ad_close a:before {
-    content: "";
-    border-bottom: 1px solid #fff;
-    transform: rotate(45deg) translateY(-45%);
-    width: 15px;
-    height: 15px;
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-.ejs_ad_close a:after {
-    content: "";
-    border-bottom: 1px solid #fff;
-    width: 15px;
-    height: 15px;
-    display: block;
-    position: absolute;
-    right: 0;
-    background: transparent;
-    top: 0;
-    transform: rotate(-45deg) translateY(-50%) translateX(0);
-}
-
 .ejs_game {
     width: inherit;
     height: inherit;
@@ -132,10 +75,8 @@
     cursor: default;
     position: relative;
     overflow: hidden;
-
-    /* Compatibilité pour height */
-    height: -webkit-fill-available; /* Webkit */
-    height: 100vh;                  /* Standard */
+    height: -webkit-fill-available;
+    height: 100vh;
 }
 
 .ejs_game_background {
@@ -143,23 +84,7 @@
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
-}
-
-.ejs_game_background_blur:before, .ejs_game_background_blur:after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: var(--ejs-background-image);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-}
-
-.ejs_game_background_blur:before {
-    background-size: cover;
-    filter: blur(10px);
-    transform: scale(1.1);
+    text-align: -webkit-auto;
 }
 
 .ejs_start_button {
@@ -176,7 +101,6 @@
     line-height: 45px;
     text-transform: uppercase;
     font-weight: bolder;
-    text-decoration: none;
     width: 200px;
     height: 45px;
     border: 0;
@@ -187,40 +111,14 @@
     box-shadow: 0 0 0 0 #222, 0 0 0 0 #111, inset 0 0 0 0 rgba(250, 250, 250, 0.2), inset 0 0 0 0 rgba(0, 0, 0, 0.5);
 }
 
-.ejs_start_button_border {
-    border: .5px solid #333;
-}
-
-.ejs_start_button:active, .ejs_start_button:hover {
-    pointer-events: auto;
-    animation: ejs_start_button_pulse 2s infinite;
-}
-
-@keyframes ejs_start_button_pulse {
-    50% {
-        box-shadow: 0 0 0 0 #222, 0 3px 7px 0 #111, inset 0 1px 1px 0 rgba(250, 250, 250, 0.2), inset 0 0 15px 1px rgba(0, 0, 0, 0.5);
-    }
-    0%, 100% {
-        box-shadow: 0 0 0 0 #222, 0 0 0 0 #111, inset 0 0 0 0 rgba(250, 250, 250, 0.2), inset 0 0 0 0 rgba(0, 0, 0, 0.5);
-    }
-}
-
 .ejs_loading_text {
     position: absolute;
     bottom: 20px;
     font-weight: 500;
     left: 50%;
     transform: translateX(-50%);
-    box-sizing: inherit;
     font-size: 12px;
     color: #bcbcbc;
-}
-
-.ejs_loading_text_glow {
-    background-color: rgba(0, 0, 0, 0.9);
-    border-radius: 10px;
-    padding: 1px 5px 1px 5px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
 }
 
 .ejs_canvas {
@@ -237,41 +135,8 @@
     font-size: 13px;
     min-width: 140px;
     padding: 8px;
-    box-sizing: inherit;
 }
 
-.ejs_context_menu li {
-    padding: 4px 11px;
-    text-align: center;
-}
-
-.ejs_context_menu li a {
-    color: #999;
-    display: block;
-    font-size: 13px;
-}
-
-.ejs_context_menu ul {
-    color: #999;
-    display: block;
-    font-size: 13px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.ejs_context_menu li:hover {
-    background: rgba(var(--ejs-primary-color), 1);
-    border-radius: 4px;
-    box-shadow: 0 0 0 5px rgba(var(--ejs-primary-color), 0.5);
-    outline: 0;
-}
-
-.ejs_context_menu li:hover a {
-    color: #fff;
-}
-
-/* Apparence: d'abord le préfixe, ensuite la version standard */
 .ejs_button {
     -moz-appearance: none;
     appearance: none;
