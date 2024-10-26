@@ -1,45 +1,49 @@
-/* Reset général */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Style du corps */
 body {
     font-family: Arial, sans-serif;
-    background-color: #222;
-    color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height: 100vh;
+    margin: 0;
+    background-color: #333;
+    color: #fff;
 }
 
-/* Conteneur principal */
-.container {
+#emulator-container {
     text-align: center;
-    max-width: 600px;
-    width: 100%;
-    margin: auto;
+    width: 500px;
+    padding: 20px;
+    background-color: #222;
+    border-radius: 8px;
 }
 
-.emulator-controls {
+h1 {
+    font-size: 24px;
     margin-bottom: 20px;
 }
 
-.emulator-canvas {
-    width: 100%;
-    max-width: 480px;
-    height: auto;
-    background-color: #000;
+canvas {
+    border: 3px solid #555;
+    margin-bottom: 20px;
 }
 
-/* Fixes de compatibilité */
-.avatar_avatar__Qg_Wv {
-    mask-image: radial-gradient(circle, white, black); /* Fallback pour Firefox */
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #555;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
-html, body, :host {
-    text-size-adjust: 100%;
+button:hover {
+    background-color: #777;
+}
+
+#loadingdiv {
+    font-size: 16px;
+    color: #ff0;
 }

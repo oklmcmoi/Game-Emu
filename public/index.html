@@ -1,47 +1,23 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Émulateur Gameboy</title>
-    <link rel="stylesheet" href="assets/base.css">
-    <link rel="stylesheet" href="assets/emulator.min.css">
-    <script src="assets/emulator.min.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emulateur Game Boy</title>
+    <link rel="stylesheet" href="webretro-master/assets/emulator.min.css">
+    <link rel="stylesheet" href="webretro-master/assets/base.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Émulateur Gameboy</h1>
-        <div class="emulator-controls">
-            <label for="rom-upload">Télécharger une ROM :</label>
-            <input type="file" id="rom-upload" accept=".gb, .gbc">
-            <button id="start-emulator">Jouer</button>
-            <button id="stop-emulator">Arrêter</button>
-        </div>
-        <!-- Écran de l'émulateur -->
-        <canvas id="emulator-screen" class="emulator-canvas"></canvas>
+    <div id="emulator-container">
+        <h1>Émulateur Game Boy</h1>
+        <canvas id="canvas" width="480" height="432"></canvas>
+        <input type="file" id="file-input" accept=".gb, .gba" style="display:none;">
+        <button id="startbutton">Charger une ROM</button>
+        <button id="stopbutton" style="display:none;">Arrêter l'émulateur</button>
+        <div id="loadingdiv" style="display:none;">Chargement...</div>
     </div>
 
-    <!-- Initialisation de l'émulateur en JavaScript -->
-    <script>
-        const emulatorScreen = document.getElementById('emulator-screen');
-        const startButton = document.getElementById('start-emulator');
-        const stopButton = document.getElementById('stop-emulator');
-        const romUpload = document.getElementById('rom-upload');
-
-        startButton.addEventListener('click', () => {
-            const romFile = romUpload.files[0];
-            if (romFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    startEmulator(e.target.result);
-                };
-                reader.readAsArrayBuffer(romFile);
-            } else {
-                alert("Veuillez télécharger un fichier ROM pour jouer.");
-            }
-        });
-
-        stopButton.addEventListener('click', stopEmulator);
-    </script>
+    <script src="webretro-master/assets/emulator.min.js"></script>
+    <script src="webretro-master/assets/main.js"></script>
 </body>
 </html>
