@@ -1,92 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameBoy Emulator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Émulateur Gameboy</title>
+    <link rel="stylesheet" href="assets/base.css">
     <link rel="stylesheet" href="assets/emulator.min.css">
-    <style>
-        #emulator-frame {
-            border: 5px solid #000;
-            width: 480px;
-            height: 432px;
-            background-color: #f0f0f0;
-            position: relative;
-            margin: auto;
-        }
-
-        #gameboy-buttons {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .button {
-            width: 80px;
-            height: 80px;
-            background-color: #ccc;
-            margin: 10px;
-            border-radius: 50%;
-        }
-    </style>
+    <script src="assets/emulator.min.js" defer></script>
 </head>
 <body>
-    <div id="emulator-frame">
-        <canvas id="screen" width="480" height="432"></canvas>
+    <div class="container">
+        <h1>Émulateur Gameboy</h1>
+        <div class="emulator-controls">
+            <label for="rom-upload">Télécharger une ROM :</label>
+            <input type="file" id="rom-upload" accept=".gb, .gbc">
+            <button id="start-emulator">Jouer</button>
+            <button id="stop-emulator">Arrêter</button>
+        </div>
+        <!-- Écran de l'émulateur -->
+        <canvas id="emulator-screen" class="emulator-canvas"></canvas>
     </div>
 
-    <div id="gameboy-buttons">
-        <div class="button">A</div>
-        <div class="button">B</div>
-        <div class="button">Start</div>
-        <div class="button">Select</div>
-    </div>
-
-    <!-- Form with accessible labels and placeholders -->
-    <form>
-        <label for="file-input">Sélectionner une ROM :</label>
-        <input type="file" id="file-input" name="file-input" title="Sélectionner une ROM pour la Game Boy" placeholder="Sélectionner une ROM">
-        
-        <label for="name">Nom :</label>
-        <input type="text" id="name" name="name" title="Entrez votre nom" placeholder="Nom complet">
-
-        <label for="email">Email :</label>
-        <input type="email" id="email" name="email" title="Entrez votre adresse e-mail" placeholder="Adresse e-mail">
-
-        <label for="password">Mot de passe :</label>
-        <input type="password" id="password" name="password" title="Entrez votre mot de passe" placeholder="Mot de passe">
-
-        <label for="message">Message :</label>
-        <textarea id="message" name="message" title="Votre message" placeholder="Écrivez votre message ici"></textarea>
-    </form>
-
-    <script src="assets/emulator.min.js"></script>
-    <script src="assets/customEmulator.js"></script>
-
+    <!-- Initialisation de l'émulateur en JavaScript -->
     <script>
-        const canvas = document.getElementById('screen');
-        const fileInput = document.getElementById('file-input');
+        const emulatorScreen = document.getElementById('emulator-screen');
+        const startButton = document.getElementById('start-emulator');
+        const stopButton = document.getElementById('stop-emulator');
+        const romUpload = document.getElementById('rom-upload');
 
-        fileInput.addEventListener('change', function() {
-            const file = fileInput.files[0];
-            if (file) {
+        startButton.addEventListener('click', () => {
+            const romFile = romUpload.files[0];
+            if (romFile) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const romData = e.target.result;
-                    startEmulator(romData);
+                    startEmulator(e.target.result);
                 };
-                reader.readAsArrayBuffer(file);
+                reader.readAsArrayBuffer(romFile);
+            } else {
+                alert("Veuillez télécharger un fichier ROM pour jouer.");
             }
         });
 
-        function startEmulator(romData) {
-            if (typeof Emulator !== 'undefined') {
-                const emulator = new Emulator(canvas, romData);
-                emulator.start();
-            } else {
-                console.error('Emulator is not defined');
-            }
-        }
+        stopButton.addEventListener('click', stopEmulator);
     </script>
 </body>
 </html>
