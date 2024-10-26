@@ -2,60 +2,91 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="dark light">
-    <meta name="theme-color" content="#333333">
-    <title>My GameBoy Emulator</title>
-    <meta name="description" content="Play your favorite GameBoy games directly in your browser.">
-    <link rel="stylesheet" href="assets/base.css?v=1.0">
-    <link rel="stylesheet" href="assets/jswindow.css">
-    <link rel="shortcut icon" href="assets/icons/icon204.png">
+    <title>GameBoy Emulator</title>
+    <link rel="stylesheet" href="assets/emulator.min.css">
+    <style>
+        #emulator-frame {
+            border: 5px solid #000;
+            width: 480px;
+            height: 432px;
+            background-color: #f0f0f0;
+            position: relative;
+            margin: auto;
+        }
+
+        #gameboy-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .button {
+            width: 80px;
+            height: 80px;
+            background-color: #ccc;
+            margin: 10px;
+            border-radius: 50%;
+        }
+    </style>
 </head>
 <body>
-    <div class="main" id="mainarea">
-        <div id="menubar">
-            <input type="checkbox" id="menuhider">
-            <label for="menuhider" class="menuhiderlabel"></label>
-            <ul id="menu">
-                <li>Controls
-                    <ul>
-                        <li><a id="keybindsbutton" href="">Keybinds</a></li>
-                        <li class="menu-long menu-nohover">Customize your in-game controls here.</li>
-                    </ul>
-                </li>
-                <li>Saves
-                    <ul>
-                        <li class="pointer" id="savegame">Save Game</li>
-                        <li class="pointer" id="loadgame">Load Game</li>
-                        <li><a id="savesbutton" href="">Recover Saves</a></li>
-                    </ul>
-                </li>
-                <li>More
-                    <ul>
-                        <li class="pointer" id="fullscreenbutton">Fullscreen</li>
-                        <li class="pointer" id="consolebutton">Console</li>
-                        <li class="pointer" id="downloadstandalonebutton">Download Standalone</li>
-                        <li><a href="https://github.com/BinBashBanana/webretro" target="_blank">GitHub</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <h1 id="title">GameBoy Emulator</h1>
-        <div id="uploadarea">
-            <h2>Upload Your Game ROM</h2>
-            <input type="file" id="file-input" name="file-input" title="Choose a GameBoy ROM file" placeholder="Choose a file">
-            <input type="button" id="startbutton" value="Start Game">
-        </div>
-        <canvas id="canvas" class="texturePixelated"></canvas>
-        <div id="loadingdiv">
-            <p class="loading">Loading...</p>
-            <progress id="loadingbar" max="1"></progress>
-        </div>
+    <div id="emulator-frame">
+        <canvas id="screen" width="480" height="432"></canvas>
     </div>
-    <!-- Scripts -->
+
+    <div id="gameboy-buttons">
+        <div class="button">A</div>
+        <div class="button">B</div>
+        <div class="button">Start</div>
+        <div class="button">Select</div>
+    </div>
+
+    <!-- Form with accessible labels and placeholders -->
+    <form>
+        <label for="file-input">Sélectionner une ROM :</label>
+        <input type="file" id="file-input" name="file-input" title="Sélectionner une ROM pour la Game Boy" placeholder="Sélectionner une ROM">
+        
+        <label for="name">Nom :</label>
+        <input type="text" id="name" name="name" title="Entrez votre nom" placeholder="Nom complet">
+
+        <label for="email">Email :</label>
+        <input type="email" id="email" name="email" title="Entrez votre adresse e-mail" placeholder="Adresse e-mail">
+
+        <label for="password">Mot de passe :</label>
+        <input type="password" id="password" name="password" title="Entrez votre mot de passe" placeholder="Mot de passe">
+
+        <label for="message">Message :</label>
+        <textarea id="message" name="message" title="Votre message" placeholder="Écrivez votre message ici"></textarea>
+    </form>
+
     <script src="assets/emulator.min.js"></script>
-    <script src="assets/jswindow.js"></script>
-    <script src="assets/main.js"></script>
+    <script src="assets/customEmulator.js"></script>
+
+    <script>
+        const canvas = document.getElementById('screen');
+        const fileInput = document.getElementById('file-input');
+
+        fileInput.addEventListener('change', function() {
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const romData = e.target.result;
+                    startEmulator(romData);
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        });
+
+        function startEmulator(romData) {
+            if (typeof Emulator !== 'undefined') {
+                const emulator = new Emulator(canvas, romData);
+                emulator.start();
+            } else {
+                console.error('Emulator is not defined');
+            }
+        }
+    </script>
 </body>
 </html>
